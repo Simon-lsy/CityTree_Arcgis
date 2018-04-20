@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>长三角建成区</title>
+
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">-->
+    <link rel="stylesheet" href="css/esri.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/citytree.css">
+    <!--<script src="https://js.arcgis.com/4.6/"></script>-->
+    <script src="js/arcgis.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <!--<script src="js/echarts.min.js"></script>-->
+    <script src="js/map.js"></script>
+
+</head>
+
+<body>
+<div id="configPanel">
+    <button type="button" class="btn btn-default" id="change">Switch</button>
+    <button type="button" class="btn btn-default" id="centriod">Get Centriod</button>
+    <br>
+
+    <!--<button type="button" class="btn btn-default" id="show_centriod_Attr" data-toggle="modal" data-target="#myModal">Show Centriod Attribute</button>-->
+    <button type="button" class="btn btn-default" id="show_centriod_BA">Show Centriod Buildup Area</button>
+
+    <br>
+
+    <button type="button" class="btn btn-default type_proportion" city_type="0">萌芽型</button>
+    <button type="button" class="btn btn-default type_proportion" city_type="1">成长型</button>
+    <button type="button" class="btn btn-default type_proportion" city_type="2">发育型</button>
+    <button type="button" class="btn btn-default type_proportion" city_type="3">区域型</button>
+
+</div>
+<div id="chart_container">
+    <div id="container" style="width: 30vw"></div>
+</div>
+
+
+<div id="viewDiv"></div>
+
+</body>
+
+</html>
