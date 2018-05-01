@@ -31,3 +31,22 @@ body,
     width: 35vw;
     background-color: transparent;
 }
+
+#periodPic{
+    position: absolute;
+    z-index: 1;
+    padding-top: 10vh;
+    padding-left: 15vw;
+    height: 70vh;
+    visibility: hidden;
+
+}
+
+#attrPic{
+    position: absolute;
+    z-index: 1;
+    padding-top: 10vh;
+    padding-left: 15vw;
+    height: 70vh;
+    visibility: hidden;
+}

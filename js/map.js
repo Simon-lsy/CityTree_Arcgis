@@ -46,12 +46,12 @@ require([
 
         var template = {
             // ZIP is the name of a field in the service containing the zip code number of the feature
-            title: "Buildup Area ID: {trend.csv.CITY_NAME}",
+            title: "Buildup Area ID: {new_trend.csv.CITY_NAME}",
             highlightEnabled: true,
             content: [{
                 type: "fields",
                 fieldInfos: [{
-                    fieldName: "trend.csv.2015常住人口",
+                    fieldName: "new_trend.csv.2015常住人口",
                     visible: true,
                     label: "2015常住人口",
                     format: {
@@ -59,7 +59,7 @@ require([
                         digitSeparator: true
                     }
                 }, {
-                    fieldName: "trend.csv.new_type",
+                    fieldName: "new_trend.csv.new_type",
                     visible: true,
                     label: "new_type",
                     format: {
@@ -67,7 +67,7 @@ require([
                         digitSeparator: true
                     }
                 }, {
-                    fieldName: "trend.csv.type",
+                    fieldName: "new_trend.csv.type",
                     visible: true,
                     label: "type",
                     format: {
@@ -75,23 +75,23 @@ require([
                         digitSeparator: true
                     }
                 }, {
-                    fieldName: "trend.csv.change_name",
+                    fieldName: "new_trend.csv.change_name",
                     visible: true,
                     label: "发展趋势"
                 }, {
-                    fieldName: "trend.csv.1991_to_2000",
+                    fieldName: "new_trend.csv.1991_to_2000",
                     visible: true,
                     label: "1991_to_2000"
                 }, {
-                    fieldName: "trend.csv.1996_to_2005",
+                    fieldName: "new_trend.csv.1996_to_2005",
                     visible: true,
                     label: "1996_to_2005"
                 }, {
-                    fieldName: "trend.csv.2001_to_2010",
+                    fieldName: "new_trend.csv.2001_to_2010",
                     visible: true,
                     label: "2001_to_2010"
                 }, {
-                    fieldName: "trend.csv.2006_to_2015",
+                    fieldName: "new_trend.csv.2006_to_2015",
                     visible: true,
                     label: "2006_to_2015"
                 }]
@@ -104,7 +104,7 @@ require([
 
             // Carbon storage of trees in Warren Wilson College.
         var featureLayer = new FeatureLayer({
-                url: "https://localhost:6443/arcgis/rest/services/MyMap/new_type/MapServer/0",
+                url: "https://localhost:6443/arcgis/rest/services/MyMap/newTrend/MapServer/0",
                 outFields: ["*"],
                 popupTemplate: template
             });
@@ -135,7 +135,7 @@ require([
                 var queryTask = new QueryTask({
                     url: citiesLayerUrl
                 });
-                var target_CityID = view.popup.features[0].attributes["trend.csv.new_type_CityID"];
+                var target_CityID = view.popup.features[0].attributes["new_trend.csv.new_type_CityID"];
                 var query = new Query();
                 query.returnGeometry = true;
                 query.outFields = ["*"];
@@ -165,13 +165,13 @@ require([
                 return s;
             }
 
-            var development_type = ['快速增长->增速放缓', '爆发式增长->快速增长->增速放缓', '平稳增长', '爆发式增长->快速增长', '快速增长->增速放缓->平稳增长', '增速放缓->平稳增长', '爆发式增长->快速增长->增长停滞', '快速增长->增长停滞', '爆发式增长->快速增长->增长停滞->增速放缓', '增速放缓', '爆发式增长', '快速增长->增长停滞->增速放缓'];
+            var development_type = ['爆发式增长', '中速增长', '爆发式增长->快速增长', '快速增长->中速增长->平稳增长', '平稳增长->低速增长', '快速增长->中速增长', '中速增长->平稳增长', '爆发式增长->快速增长->中速增长', '低速增长'];
             var city_type = [1, 3, 4, 7];
             var proportion_array = [];
-            proportion_array.push([0., 0., 0., 5., 0., 0., 2., 0., 0., 0., 14., 0.]);
-            proportion_array.push([2., 0., 0., 33., 0., 0., 24., 7., 0., 0., 8., 3.]);
-            proportion_array.push([9., 0., 0., 0., 1., 2., 3., 11., 0., 1., 1., 10.]);
-            proportion_array.push([0., 0., 3., 0., 0., 3., 0., 0., 0., 0., 1., 0.]);
+            proportion_array.push([19.0, 0.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+            proportion_array.push([25.0, 0.0, 47.0, 0.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0]);
+            proportion_array.push([1.0, 1.0, 11.0, 2.0, 0.0, 11.0, 2.0, 10.0, 0.0, 0.0, 0.0, 0.0]);
+            proportion_array.push([1.0, 0.0, 0.0, 0.0, 2.0, 0.0, 3.0, 0.0, 1.0, 0.0, 0.0, 0.0]);
 
 
             $('.type_proportion').on('click', function () {
@@ -239,6 +239,7 @@ require([
                     },
                     plotOptions: {
                         pie: {
+                            showInLegend: true,
                             allowPointSelect: true,
                             cursor: 'pointer',
                             dataLabels: {
@@ -252,7 +253,7 @@ require([
                                 click: function (e) {
                                     var trend_type = e.point.name;
 
-                                    var citiesLayerUrl = "https://localhost:6443/arcgis/rest/services/MyMap/trend/MapServer/1"; // Represents the REST endpoint for a layer of cities.
+                                    var citiesLayerUrl = "https://localhost:6443/arcgis/rest/services/MyMap/newTrend/MapServer/1"; // Represents the REST endpoint for a layer of cities.
                                     var queryTask = new QueryTask({
                                         url: citiesLayerUrl
                                     });
@@ -262,9 +263,9 @@ require([
 
                                     trend_type = trend_type.replace('快速增长', 'fast');
                                     trend_type = trend_type.replace('爆发式增长', 'boost');
-                                    trend_type = trend_type.replace('增速放缓', 'slow');
+                                    trend_type = trend_type.replace('中速增长', 'medium');
                                     trend_type = trend_type.replace('平稳增长', 'stable');
-                                    trend_type = trend_type.replace('增长停滞', 'stop');
+                                    trend_type = trend_type.replace('低速增长', 'stop');
 
                                     // if(trend_type.length<4){
                                     //     trend_type = parseInt(trend_type);
@@ -421,6 +422,167 @@ require([
                     yAxis: 1
                 }]
             });
+        });
+
+        $('#period').on('click', function () {
+
+            var chart = Highcharts.chart('container', {
+                chart: {
+                    backgroundColor: 'transparent',
+                    type: 'spline'
+                },
+                title: {
+                    text: '五种类型进出口总额增长'
+                },
+                // subtitle: {
+                //     text: '数据来源: WorldClimate.com'
+                // },
+                xAxis: {
+                    categories: ['year1', 'year2', 'year3', 'year4', 'year5', 'year6',
+                        'year7', 'year8', 'year9', 'year10']
+                },
+                yAxis: {
+                    title: {
+                        text: '进出口总额变化'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    }
+                },
+                tooltip: {
+                    crosshairs: true,
+                    shared: true
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            radius: 4,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        }
+                    }
+                },
+                series: [{
+                    name: '低速增长',
+                    marker: {
+                        symbol: 'square'
+                    },
+                    data: [1.0, 1.1305607454074693, 1.269231171460369, 1.4160224894524582, 1.5709453180257427, 1.7340097433840473, 1.9052253707379516, 2.084601368608428, 2.2721465072552247, 2.467869192227002]
+                }, {
+                    name: '爆发式增长',
+                    marker: {
+                        symbol: 'diamond'
+                    },
+                    data: [1.0, 1.3525779224517855, 1.7857469164206152, 2.3095714979945523, 2.934487960510237, 3.6712900409087292, 4.531116077367028, 5.52543741756594, 6.666047887958283, 7.96505417230173]
+                }, {
+                    name: '快速增长',
+                    marker: {
+                        symbol: 'diamond'
+                    },
+                    data: [1.0, 1.3034931682868838, 1.6634071089742664, 2.0846693893011783, 2.5722251253311077, 3.131035780090868, 3.766078119257585, 4.482343295095174, 5.284836036210968, 6.178573925665472]
+                }, {
+                    name: '平稳增长',
+                    marker: {
+                        symbol: 'diamond'
+                    },
+                    data: [1.0, 1.2191428927866124, 1.462908555109904, 1.7318499851091125, 2.026490186928016, 2.3473257826282286, 2.694829980835635, 3.0694550492944175, 3.4716343982221742, 3.9017843537162995]
+                }, {
+                    name: '中速增长',
+                    marker: {
+                        symbol: 'diamond'
+                    },
+                    data: [1.0, 1.230913940201598, 1.497257920544793, 1.8020420589119004, 2.14834877451334, 2.539330578725371, 2.978208042006147, 3.4682679150227234, 4.012861385721968, 4.61540245695297]
+                }]
+            });
+
+        });
+
+        var clickNum_period = 0;
+
+        $('#period_attr').on('click', function () {
+            if (clickNum_period % 2 == 0) {
+                $('#periodPic').css('visibility', 'visible');
+            } else {
+                $('#periodPic').css('visibility', 'hidden');
+            }
+            clickNum_period += 1;
+
+        });
+
+        var clickNum_centriod = 0;
+
+        $('#show_centriod_attr').on('click', function () {
+            if (clickNum_centriod % 2 == 0) {
+                $('#attrPic').css('visibility', 'visible');
+            } else {
+                $('#attrPic').css('visibility', 'hidden');
+            }
+            clickNum_centriod += 1;
+
+        });
+
+        $('.year').on('click',function () {
+           var year = $(this).text();
+           console.log(year);
+
+           var category = ['爆发式增长','快速增长','中速增长','平稳增长','低速增长'];
+           switch (year.substr(0,4))
+           {
+               case '1991':
+                   var data = [174,17,6,2,1];
+                   break;
+               case '1996':
+                   var data = [130,47,15,7,1];
+                   break;
+               case '2001':
+                   var data = [100,69,22,6,3];
+                   break;
+               case '2006':
+                   var data = [82,74,33,8,3];
+                   break;
+           }
+
+
+            $('#container').highcharts({
+                chart: {
+                    type: 'column',
+                    backgroundColor: 'transparent'
+                },
+                title: {
+                    text: year+'发展类型'
+                },
+                xAxis: {
+                    categories: category,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '个数'
+                    }
+                },
+                // tooltip: {
+                //     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                //     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                //     '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                //     footerFormat: '</table>',
+                //     shared: true,
+                //     useHTML: true
+                // },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: year,
+                    data: data
+                }]
+            });
+
+
         });
 
 
